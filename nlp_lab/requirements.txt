@@ -12,3 +12,6 @@ transformers>=4.40
 torch>=2.2
 requests>=2.31
 pymorphy3>=2.0
+gensim>=4.3
+pyLDAvis>=3.4
+scikit-learn>=1.4
