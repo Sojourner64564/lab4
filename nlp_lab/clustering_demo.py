@@ -56,16 +56,23 @@ def cluster_all(X, k):
     }
 
 
-def elbow_silhouette(X, k_range=range(2, 11)):
-    inertia, sil = [], []
+def elbow_silhouette(X, k_range=None):
+    n = X.shape[0]
+    max_k = max(2, n - 1)
+    if k_range is None:
+        k_range = range(2, min(max_k, 11) + 1)
+    inertia, sil, ks = [], [], []
     for k in k_range:
+        if k >= n:
+            break
         km = KMeans(n_clusters=k, random_state=42, n_init=10).fit(X)
+        ks.append(k)
         inertia.append(km.inertia_)
         sil.append(silhouette_score(X, km.labels_) if k > 1 else 0.0)
-    return list(k_range), inertia, sil
+    return ks, inertia, sil
 
 
-def plot_all(cities, dishes, X, labels, k, out_dir: Path):
+def plot_all(cities, X, labels, k, out_dir: Path):
     out_dir.mkdir(parents=True, exist_ok=True)
 
     # elbow + silhouette

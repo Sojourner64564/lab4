@@ -227,6 +227,7 @@ def compare_models(texts, df, k):
     print("\n=== Сравнение LDA vs NMF ===")
     for m, r in results.items():
         print(f"{m.upper():>4}: K={r['k']}, coherence={r['coherence']:.4f}")
+    (OUT_DIR / "comparison").mkdir(parents=True, exist_ok=True)   # ← добавить
     with open(OUT_DIR / "comparison" / "comparison.json", "w", encoding="utf-8") as f:
         json.dump({m: {"k": r["k"], "coherence": r["coherence"]} for m, r in results.items()},
                   f, ensure_ascii=False, indent=2)
